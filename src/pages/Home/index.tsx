@@ -28,7 +28,6 @@ export function Home() {
   const [anchorEl, setAnchorEl] = useState(null);
     
   const openClick = Boolean(anchorEl);
-
   
   const handleClick = (event: any, card: CardInterface) => {
     setAnchorEl(event.currentTarget);
@@ -243,7 +242,7 @@ export function Home() {
         onChange={e => setSearch(e.target.value)} 
         onKeyPress={handleKeyPress} 
         placeholder="Pesquisar" 
-        style={{ width:'100%',paddingLeft: '40px',paddingTop:'3px', background:'white', borderRadius:'4px' }} 
+        style={{ width:'25rem',paddingLeft: '40px',paddingTop:'3px', background:'white', borderRadius:'4px' }} 
       />
     );
   };
