@@ -32,9 +32,9 @@ const Header = ({ param, searchBar }: { param: string | undefined, searchBar?:an
 
         {param !== 'home' &&
           <>
-            <Typography variant="h6" style={{ flexGrow: 1 }}>
+            <Typography variant="h6" style={{ flexGrow: 1 }} >
             </Typography>
-            <Button color="inherit" onClick={navigateHeader}>{param === 'register' ? 'Entrar' : 'Cadastrar'}</Button>
+            <Button variant="contained" onClick={navigateHeader}>{param === 'register' ? 'Entrar' : 'Cadastrar'}</Button>
           </>}
         
         {param === 'home' &&
