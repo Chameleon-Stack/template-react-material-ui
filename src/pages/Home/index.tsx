@@ -83,7 +83,14 @@ export function Home() {
     }).then(response => {
       const getCards = cards.filter(card => card.id !== draggableId)
 
-      setCards([...getCards,response.data])
+      const getCard = cards.find(card => card.id === draggableId)
+
+      setCards([...getCards,
+        {
+          ...getCard,
+          status: destination.droppableId
+         } as CardInterface
+      ])
     })
   }
 
@@ -103,7 +110,7 @@ export function Home() {
     const data = new FormData(event.currentTarget);
 
     
-    if (!data.get('title') || (!data.get('status') && !status) || !data.get('description')) {
+    if (!data.get('title') || (!data.get('status') && (!status || status === '')) || !data.get('description')) {
       toast.error('Preencha todos os campos!');
       
       return;
@@ -360,7 +367,7 @@ export function Home() {
                       </div>
                     </div>
                   <Button
-                    onClick={() => (setStatus(column.name), handleOpen())}
+                    onClick={() => (setStatus(column.status), handleOpen())}
                     style={{
                       backgroundColor: '#F6F7F9',
                       color: '#9CA3AD',

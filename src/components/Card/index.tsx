@@ -20,7 +20,7 @@ const Card = ({
 }: RequestCardInterface) => {
   return (
     <>
-    {cards.map((card, index) => {
+      {cards.map((card, index) => {
       if(card.status === column.status) return (
       <Draggable draggableId={card.id} index={index} key={card.id}>
       {(provided) => (
