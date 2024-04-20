@@ -250,14 +250,14 @@ export function Home() {
         onChange={e => setSearch(e.target.value)} 
         onKeyPress={handleKeyPress} 
         placeholder="Pesquisar" 
-        style={{ width:'25rem',paddingLeft: '40px',paddingTop:'3px', background:'white', borderRadius:'4px' }} 
+        style={{ width:'100%',paddingLeft: '40px',paddingTop:'3px', background:'white', borderRadius:'4px' }} 
       />
     );
   };
 
   const SearchBar = () => {
     return (
-      <div style={{ width:'25rem', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+      <div style={{ width:'30rem', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
         <div style={{ width:'100%'}}>
           <div style={{
             position: 'relative',
