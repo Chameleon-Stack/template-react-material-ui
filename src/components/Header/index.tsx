@@ -38,31 +38,32 @@ const Header = ({ param, searchBar }: { param: string | undefined, searchBar?: a
     setAnchorEl(event.currentTarget);
   };
   
-
   return (
     <AppBar
       position="sticky"
-      sx={{ backgroundColor: "#F6F7F9 !important", borderTop: '1px solid', boxShadow: 'none' }}
+      sx={{
+        backgroundColor: "#F6F7F9 !important",
+        borderTop: '1px solid',
+        boxShadow: 'none',
+        }}
     >
-      <Toolbar>
+      <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <IconButton edge="start" color="inherit" aria-label="menu" onClick={() => navigate('/auth/home')}>
             <img src={logo} alt="Chameleon Stack - Kanban" style={{ height: '30px' }} />
         </IconButton>
-
+  
         {param !== 'home' && !user.user &&
-          <>
-            <Typography variant="h6" style={{ flexGrow: 1 }} >
-            </Typography>
-            <Button variant="contained" onClick={navigateHeader}>{param === 'register' ? 'Entrar' : 'Cadastrar'}</Button>
-          </>}
+          <Button variant="contained" onClick={navigateHeader}>{param === 'register' ? 'Entrar' : 'Cadastrar'}</Button>
+        }
         
         {param === 'home' &&
-          <>
-            <SearchBar />
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <Avatar alt="User Profile" src={user?.user?.photo || userDefault} />
+          <SearchBar />
+        }
+          
+        {param === 'home' &&
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Avatar alt="User Profile" src={user?.user?.photo || userDefault} />
             <Box sx={{ display: 'flex', alignItems: 'center', flexDirection: 'column', marginLeft: 2, gap: 0 }}>
-
               <div
                 onClick={handleClick}
                 style={{
@@ -77,7 +78,7 @@ const Header = ({ param, searchBar }: { param: string | undefined, searchBar?: a
                   height:'2rem'
                 }}
               >
-
+  
                 <Typography
                   variant="overline"
                   sx={{ color: "#2A2A35" }}
@@ -111,7 +112,7 @@ const Header = ({ param, searchBar }: { param: string | undefined, searchBar?: a
                   anchorEl={anchorEl}
                   open={openClick}
                   onClose={handleClickClose}
-                  style={{ marginLeft: '5rem' }}
+                  style={{ marginLeft: '3rem',marginTop: '1rem' }}
                 >
                   <MenuItem onClick={() => {navigate('/auth/edit')}}>
                       Editar
@@ -122,7 +123,6 @@ const Header = ({ param, searchBar }: { param: string | undefined, searchBar?: a
                   </Menu>
               </Box>
             </Box>
-          </>
         } 
       </Toolbar>
     </AppBar>

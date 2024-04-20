@@ -249,7 +249,7 @@ export function Home() {
 
   const SearchBar = () => {
     return (
-      <div style={{ width:'80%', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+      <div style={{ width:'25rem', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
         <div style={{ width:'60%'}}>
           <div style={{
             position: 'relative',
