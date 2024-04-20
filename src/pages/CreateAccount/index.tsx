@@ -13,12 +13,15 @@ import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import user from '../../assets/user.jpeg';
 import Header from '../../components/Header';
+import { useAuth } from '../../hooks/useAuth';
 import { api } from '../../services/api';
 
 const defaultTheme = createTheme();
 
 export function CreateAccount() {
-  const [preview, setPreview] = React.useState(user);
+  const { user: userLogged } = useAuth();
+
+  const [preview, setPreview] = React.useState(userLogged?.user?.photo || user);
   
   const handleFileChange = (event:any) => {
     setPreview(URL.createObjectURL(event.target.files[0]));
@@ -31,18 +34,24 @@ export function CreateAccount() {
 
     const data = new FormData(event.currentTarget);
 
-    if (!data.get('name') || !data.get('email') || !data.get('password')) {
+    if (!userLogged && (!data.get('name') || !data.get('email') || !data.get('password'))) {
       toast.error('Preencha todos os campos!');
 
       return;
     }
 
       try {
+        if (userLogged) {
+          
+          await api.patch(`/user/${userLogged.user.id}`,data);
+          
+          navigate('/auth/home');
+        }
         await api.post('/user',data);
-  
+        
         navigate('/');
       } catch (error) {
-        toast.error('Ocorreu algum erro na criação do usuário!');
+        toast.error(`Ocorreu algum erro na ${userLogged ? 'edição' : 'criação'} do usuário!`);
       }
   };
 
@@ -86,6 +95,7 @@ export function CreateAccount() {
                   id="name"
                   label="Nome"
                   name="name"
+                  defaultValue={userLogged?.user?.name || ''}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -95,6 +105,7 @@ export function CreateAccount() {
                   id="email"
                   label="E-mail"
                   name="email"
+                  defaultValue={userLogged?.user?.email || ''}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -114,7 +125,7 @@ export function CreateAccount() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Cadastrar
+              {userLogged ? 'Editar' : 'Cadastrar'}
             </Button>
           </Box>
         </Box>

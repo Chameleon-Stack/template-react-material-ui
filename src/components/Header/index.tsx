@@ -45,11 +45,11 @@ const Header = ({ param, searchBar }: { param: string | undefined, searchBar?: a
       sx={{ backgroundColor: "#F6F7F9 !important", borderTop: '1px solid', boxShadow: 'none' }}
     >
       <Toolbar>
-        <IconButton edge="start" color="inherit" aria-label="menu">
+        <IconButton edge="start" color="inherit" aria-label="menu" onClick={() => navigate('/auth/home')}>
             <img src={logo} alt="Chameleon Stack - Kanban" style={{ height: '30px' }} />
         </IconButton>
 
-        {param !== 'home' &&
+        {param !== 'home' && !user.user &&
           <>
             <Typography variant="h6" style={{ flexGrow: 1 }} >
             </Typography>
