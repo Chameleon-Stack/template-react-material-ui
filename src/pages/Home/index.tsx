@@ -1,6 +1,7 @@
 import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
 import { Button, Container, Grid, InputBase, ThemeProvider, Typography, createTheme } from '@mui/material';
+import { darken } from 'polished';
 import { useEffect, useState } from 'react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import toast, { Toaster } from 'react-hot-toast';
@@ -278,7 +279,7 @@ export function Home() {
     <ThemeProvider theme={defaultTheme}>
       <Toaster position="top-right" reverseOrder={false} />
       <Header param='home' searchBar={SearchBar} />
-      <Container style={{marginTop: '2rem', maxWidth: '1220px'}}>
+      <Container style={{marginTop: '2rem', maxWidth: '1220px', paddingBottom: '1rem',}}>
       <Grid container justifyContent="space-between" alignItems="center">
           <Typography variant="h6" style={{
             fontFamily: 'Poppins',
@@ -316,14 +317,13 @@ export function Home() {
                 key={column.status}
                 direction="horizontal"
               >
-              {(provided) => (
+              {(provided, snapshot) => (
                 <div
                 {...provided.droppableProps}
                     ref={provided.innerRef}
                     style={{
                       marginTop: '1rem',
                       width: '100%',
-                      backgroundColor: '#F6F7F9',
                       color: '#9CA3AD',
                       textTransform: 'none',
                       display: 'flex',
@@ -332,6 +332,7 @@ export function Home() {
                       flexDirection:'column',
                       borderRadius: '4px',
                       paddingBottom: '1rem',
+                      backgroundColor: snapshot.isDraggingOver ? darken(0.1,'#F6F7F9') : '#F6F7F9',
                     }}
                   >
                     <div
