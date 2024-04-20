@@ -19,11 +19,16 @@ import { api } from '../../services/api';
 const defaultTheme = createTheme();
 
 export function CreateAccount() {
-  const { user: userLogged } = useAuth();
-
-  const [preview, setPreview] = React.useState(userLogged?.user?.photo || user);
+  const { user: userAuth } = useAuth();
   
-  const handleFileChange = (event:any) => {
+  const userLogged = userAuth.user
+
+  const [preview, setPreview] = React.useState(userLogged?.photo || user);
+  const [file, setFile] = React.useState<any>(null);
+
+
+  const handleFileChange = (event: any) => {
+    setFile(event.target.files[0]);
     setPreview(URL.createObjectURL(event.target.files[0]));
   };
 
@@ -33,17 +38,26 @@ export function CreateAccount() {
     event.preventDefault();
 
     const data = new FormData(event.currentTarget);
-
+    
     if (!userLogged && (!data.get('name') || !data.get('email') || !data.get('password'))) {
       toast.error('Preencha todos os campos!');
-
+      
       return;
+    }
+    
+    if (userLogged && !data.get('password')) {
+      toast.error('Informe a senha para realizara edição!');
+      
+      return;
+    }
+    
+    if (file) {
+      data.append('file',file)
     }
 
       try {
         if (userLogged) {
-          
-          await api.patch(`/user/${userLogged.user.id}`,data);
+          await api.patch(`/user/${userLogged.id}`, data);
           
           navigate('/auth/home');
         }
@@ -90,22 +104,22 @@ export function CreateAccount() {
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  required
+                  required={userLogged && true}
                   fullWidth
                   id="name"
                   label="Nome"
                   name="name"
-                  defaultValue={userLogged?.user?.name || ''}
+                  defaultValue={userLogged?.name || ''}
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  required
+                  required={userLogged && true}
                   fullWidth
                   id="email"
                   label="E-mail"
                   name="email"
-                  defaultValue={userLogged?.user?.email || ''}
+                  defaultValue={userLogged?.email || ''}
                 />
               </Grid>
               <Grid item xs={12}>
