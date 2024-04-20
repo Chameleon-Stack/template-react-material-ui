@@ -330,9 +330,10 @@ export function Home() {
                       alignItems: 'center',
                       justifyContent: 'center',
                       flexDirection:'column',
-                      borderRadius: '4px',
                       paddingBottom: '1rem',
-                      backgroundColor: snapshot.isDraggingOver ? darken(0.1,'#F6F7F9') : '#F6F7F9',
+                      borderTopLeftRadius: '5rem',
+                      borderTopRightRadius: '5rem',
+                      backgroundColor: snapshot.isDraggingOver ? darken(0.05,'#F6F7F9') : '#F6F7F9',
                     }}
                   >
                     <div
