@@ -24,11 +24,8 @@ export function CreateAccount() {
   const userLogged = userAuth.user
 
   const [preview, setPreview] = React.useState(userLogged?.photo || user);
-  const [file, setFile] = React.useState<any>(null);
-
 
   const handleFileChange = (event: any) => {
-    setFile(event.target.files[0]);
     setPreview(URL.createObjectURL(event.target.files[0]));
   };
 
@@ -51,22 +48,20 @@ export function CreateAccount() {
       return;
     }
     
-    if (file) {
-      data.append('file',file)
-    }
-
-      try {
-        if (userLogged) {
-          await api.patch(`/user/${userLogged.id}`, data);
-          
-          navigate('/auth/home');
-        }
-        await api.post('/user',data);
+    try {
+      if (userLogged) {
+        await api.patch(`/user/${userLogged.id}`, data);
         
-        navigate('/');
-      } catch (error) {
-        toast.error(`Ocorreu algum erro na ${userLogged ? 'edição' : 'criação'} do usuário!`);
+        navigate('/auth/home');
+
+        return;
       }
+      await api.post('/user',data);
+      
+      navigate('/');
+    } catch (error) {
+      toast.error(`Ocorreu algum erro na ${userLogged ? 'edição' : 'criação'} do usuário!`);
+    }
   };
 
   return (
@@ -90,12 +85,12 @@ export function CreateAccount() {
             <Grid container spacing={2}>
             <Grid item xs={12}>
                 Foto: 
-                <label htmlFor="photo" style={{ cursor: 'pointer', display: 'flex', justifyContent: 'center' }}>
+                <label htmlFor="file" style={{ cursor: 'pointer', display: 'flex', justifyContent: 'center' }}>
                   <input
                     type="file"
                     accept="image/*"
-                    id="photo"
-                    name="photo"
+                    id="file"
+                    name="file"
                     style={{ display: 'none' }}
                     onChange={handleFileChange}
                   />
