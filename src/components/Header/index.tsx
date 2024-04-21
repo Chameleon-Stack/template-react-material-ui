@@ -48,7 +48,14 @@ const Header = ({ param, searchBar }: { param: string | undefined, searchBar?: a
         }}
     >
       <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
-        <IconButton edge="start" color="inherit" aria-label="menu" onClick={() => navigate('/auth/home')}>
+        <IconButton edge="start" color="inherit" aria-label="menu" onClick={() => navigate('/auth/home')}
+          style={{
+            width: '8rem',
+            display: 'flex',
+            justifyContent: 'start',
+            alignItems: 'center', 
+          }}
+        >
             <img src={logo} alt="Chameleon Stack - Kanban" style={{ height: '30px' }} />
         </IconButton>
   
@@ -75,7 +82,8 @@ const Header = ({ param, searchBar }: { param: string | undefined, searchBar?: a
                   margin: '0',
                   padding: '0',
                   gap: '0',
-                  height:'2rem'
+                  height: '2rem',
+                  width: '8rem'
                 }}
               >
   
