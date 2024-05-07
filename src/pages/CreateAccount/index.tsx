@@ -23,10 +23,22 @@ export function CreateAccount() {
   
   const userLogged = userAuth.user
 
+  const [photo, setPhoto] = React.useState<string>();
   const [preview, setPreview] = React.useState(userLogged?.photo || user);
 
   const handleFileChange = (event: any) => {
     setPreview(URL.createObjectURL(event.target.files[0]));
+
+    const reader = new FileReader();
+      
+    reader.readAsDataURL(event.target.files[0] as Blob);
+    
+    reader.onloadend = function() {
+      const base64String = (reader.result as string)?.split(',')[1];
+      
+      setPhoto(base64String);
+    };
+    
   };
 
   const navigate = useNavigate();
@@ -34,7 +46,7 @@ export function CreateAccount() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const data = new FormData(event.currentTarget);
+    const data  = new FormData(event.currentTarget);
     
     if (!userLogged && (!data.get('name') || !data.get('email') || !data.get('password'))) {
       toast.error('Preencha todos os campos!');
@@ -43,20 +55,34 @@ export function CreateAccount() {
     }
     
     if (userLogged && !data.get('password')) {
-      toast.error('Informe a senha para realizara edição!');
+      toast.error('Informe a senha para realizar a edição!');
       
       return;
     }
     
+    if (data.get('file')) {
+      data.delete('file');
+    }
+    
     try {
       if (userLogged) {
-        await api.patch(`/user/${userLogged.id}`, data);
+        await api.patch(`/user/${userLogged.id}`, {
+          name: data.get('name'),
+          email: data.get('email'),
+          password: data.get('password'),
+          photo
+        });
         
         navigate('/auth/home');
 
         return;
       }
-      await api.post('/user',data);
+      await api.post('/user',{
+        name: data.get('name'),
+        email: data.get('email'),
+        password: data.get('password'),
+        photo
+      });
       
       navigate('/');
     } catch (error) {
