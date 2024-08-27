@@ -30,15 +30,14 @@ export function CreateAccount() {
     setPreview(URL.createObjectURL(event.target.files[0]));
 
     const reader = new FileReader();
-      
+
     reader.readAsDataURL(event.target.files[0] as Blob);
-    
+
     reader.onloadend = function() {
       const base64String = (reader.result as string)?.split(',')[1];
-      
+
       setPhoto(base64String);
     };
-    
   };
 
   const navigate = useNavigate();
@@ -46,7 +45,7 @@ export function CreateAccount() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const data  = new FormData(event.currentTarget);
+    const data = new FormData(event.currentTarget);
     
     if (!userLogged && (!data.get('name') || !data.get('email') || !data.get('password'))) {
       toast.error('Preencha todos os campos!');
@@ -59,7 +58,7 @@ export function CreateAccount() {
       
       return;
     }
-    
+
     if (data.get('file')) {
       data.delete('file');
     }
@@ -93,7 +92,7 @@ export function CreateAccount() {
   return (
     <ThemeProvider theme={defaultTheme}>
       <Toaster position="top-right" reverseOrder={false} />
-      <Header param='register' />
+      <Header param={userLogged ? 'edit' : 'register'} />
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -105,7 +104,7 @@ export function CreateAccount() {
           }}
         >
           <Typography component="h1" variant="h5">
-            Criar usuário
+          {userLogged ? 'Editar usuário' : 'Criar usuário'}
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
